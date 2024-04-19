@@ -1,33 +1,78 @@
-# Online-Shopping-System
-Final Year Team Project For CS112 (Online Shopping System)
+//base code for starting 
 
-    //base code for starting 
-
-    //libraries that will be used and possibly more
+//libraries that will be used and possibly more
 #include<iostream>
 #include<string>
 #include<stdlib.h>
 using namespace std;
 
-    //classes that will be used and possibly more
+//classes that will be used and possibly more
 class Profile
 {
+public:
+	string fullName;
+	string username;
+	string password;
 
 };
 
 class Admin
 {
+	string permissions;
+	
+	//ideas for admin settings
 
+	void userManagement()
+	{
+
+	}
+	
+	void shopManagement()
+	{
+
+	}
+	
+	void systemSettings()
+	{
+
+	}
+	
+	void orderManagement()
+	{
+
+	}
+
+	void inventoryManagement()
+	{
+
+	}
+	
+	void customerSupport()
+	{
+
+	}
 };
 
-class Shop_Owner
+class Shop_Owner: public Profile
 {
-
+public:
+	string shopName;
+	string shopDescription;
+	int contact;
+	string businessEmail;
+	string businessAddress;
+	int inventory;
 };
 
-class Customer
+class Customer: public Profile
 {
-
+public:
+	string email;
+	int contact;
+	string shippingAddress;
+	string billingAddress;
+	string paymentInformation;
+	string wishlist;
 };
 
 class Prime_Membership
@@ -40,7 +85,7 @@ class Assistant
 
 };
 
-    //our main
+//our main
 int main()
 {
 
