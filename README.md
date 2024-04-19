@@ -1,12 +1,14 @@
-//base code for starting 
-
 //libraries that will be used and possibly more
+
+
 #include<iostream>
 #include<string>
 #include<stdlib.h>
 using namespace std;
 
 //classes that will be used and possibly more
+
+
 class Profile
 {
 public:
@@ -21,6 +23,7 @@ class Admin
 	string permissions;
 	
 	//ideas for admin settings
+
 
 	void userManagement()
 	{
@@ -86,6 +89,8 @@ class Assistant
 };
 
 //our main
+
+
 int main()
 {
 
