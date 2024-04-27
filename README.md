@@ -5,6 +5,22 @@ using namespace std;
 
 class Profile
 {
+private:
+    string name;
+    string username;
+    string password;
+
+public:
+
+    void registration()
+    {
+
+    }
+
+    void login()
+    {
+
+    }
 };
 
 class Item
@@ -13,17 +29,74 @@ class Item
 
 class Admin
 {
+public:
+    void viewProfile()
+    {
+
+    }
+
+    void resetProfile()
+    {
+
+    }
+
+    void deleteProfile()
+    {
+
+    }
 };
 
 class Shop_Owner : public Profile, public Item
 {
+public:
+    
+    void addItem()
+    {
+
+    }
+
+    void removeItem()
+    {
+
+    }
+
+    void checkSales()
+    {
+
+    }
 };
 
 class Customer : public Profile
 {
+public:
+
+    void buyItem()
+    {
+
+    }
+
+    void addToCart()
+    {
+
+    }
+
+    void deleteItem()
+    {
+
+    }
+
+    void viewCart()
+    {
+
+    }
+
+    void buyCart()
+    {
+
+    }
 };
 
-                 // ANUM'S CODE STARTS HERE 
+// ANUM'S CODE STARTS HERE 
 
 const int MAX_ITEMS = 10;
 string itemName;
@@ -40,7 +113,7 @@ private:
 public:
     ShopManagement() : itemNum(0) {}
 
-    void addItem(const string& itemName, double itemPrice)      
+    void addItem(const string& itemName, double itemPrice)
     {
         if (itemNum < MAX_ITEMS)
         {
@@ -161,11 +234,11 @@ void cartOptions()      //should make this function a member function of custome
         }
     }
 }
-            // ANUM'S CODE ENDS HERE
+// ANUM'S CODE ENDS HERE
 
 int main()
 {
-a: 
+a:
 
     int option;
     cout << "\tMAIN MENU\n1. Manage Cart\n2. Exit\nOption: ";
@@ -185,7 +258,7 @@ a:
         cout << "Invalid option";
         goto a;
     }
-   
+
     return 0;
 }
 
