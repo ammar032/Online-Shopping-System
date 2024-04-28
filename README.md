@@ -5,22 +5,41 @@ using namespace std;
 
 class Profile
 {
-private:
+protected:
+    int age;
     string name;
     string username;
     string password;
 
 public:
-
-    void registration()
+    Profile()
     {
-
+        age = 0;
+        name = "";
+        username = "";
+        password = "";
     }
 
-    void login()
+    void setProfile(int _age, string _name, string _username, string _password)
     {
-
+        age = _age;
+        name = _name;
+        username = _username;
+        password = _password;
     }
+    void accountdetails()
+    {
+        system("cls");
+        cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+        cout << setw(56) << "Personal Information" << setw(56) << endl;
+        cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+        cout << setw(42) << "Name : "<<name<<endl;
+        cout << setw(42) << "Age  : " << age << endl;
+        cout << setw(38) << "Username : " << username << endl;
+        cout << setw(38) << "Password : " << password << endl;
+    }
+
+
 };
 
 class Item
