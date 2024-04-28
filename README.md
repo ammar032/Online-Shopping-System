@@ -236,15 +236,35 @@ void cartOptions()      //should make this function a member function of custome
 }
 // ANUM'S CODE ENDS HERE
 
-int main()
-{
-a:
+int main() {
+    int age;
+    string name, username, password;
+    Admin ammar;
 
-    int option;
+    cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+    cout << setw(56) << "" << "ACCOUNT REGISTRATION" << setw(56) << "" << endl;
+    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+    cout << endl << setw(42) << "" << "Please Enter Your Name : "; getline(cin, name); cout << endl;
+    cout << setw(42) << "" << "Please Enter Your Age  : "; cin >> age; cout << endl;
+    system("cls"); cout << endl;
+
+    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+    cout << setw(60) << "" << "ACCOUNT LOGIN" << setw(63) << "" << endl;
+    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
+    cout << endl << setw(55) << "" << "Username : "; cin >> username; cout << endl;
+    cout << setw(66) << "Password : "; cin >> password;
+    ammar.setProfile(age,name,username,password);
+    cout << "testing" << endl;
+    ammar.accountdetails();
+}
+
+    
+//a:
+int option;
     cout << "\tMAIN MENU\n1. Manage Cart\n2. Exit\nOption: ";
-    cin >> option;
+    cin >> option;//
 
-    switch (option)
+   // switch (option)
     {
     case 1:
         cartOptions();
@@ -257,8 +277,9 @@ a:
         system("cls");
         cout << "Invalid option";
         goto a;
+        
     }
 
-    return 0;
+    return 0;//
 }
 
