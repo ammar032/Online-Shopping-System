@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<stdlib.h>
+#include<iomanip>
 using namespace std;
 
 class Profile
@@ -33,7 +34,7 @@ public:
         cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
         cout << setw(56) << "Personal Information" << setw(56) << endl;
         cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-        cout << setw(42) << "Name : "<<name<<endl;
+        cout << setw(42) << "Name : " << name << endl;
         cout << setw(42) << "Age  : " << age << endl;
         cout << setw(38) << "Username : " << username << endl;
         cout << setw(38) << "Password : " << password << endl;
@@ -46,7 +47,7 @@ class Item
 {
 };
 
-class Admin
+class Admin : public Profile
 {
 public:
     void viewProfile()
@@ -68,7 +69,7 @@ public:
 class Shop_Owner : public Profile, public Item
 {
 public:
-    
+
     void addItem()
     {
 
@@ -115,7 +116,7 @@ public:
     }
 };
 
-// ANUM'S CODE STARTS HERE 
+/*// ANUM'S CODE STARTS HERE 
 
 const int MAX_ITEMS = 10;
 string itemName;
@@ -253,7 +254,7 @@ void cartOptions()      //should make this function a member function of custome
         }
     }
 }
-// ANUM'S CODE ENDS HERE
+// ANUM'S CODE ENDS HERE */
 
 int main() {
     int age;
@@ -268,37 +269,36 @@ int main() {
     system("cls"); cout << endl;
 
     cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-    cout << setw(60) << "" << "ACCOUNT LOGIN" << setw(63) << "" << endl;
+    cout << setw(60) << "" << "ACCOUNT LOGIN" << setw(60) << "" << endl;
     cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
     cout << endl << setw(55) << "" << "Username : "; cin >> username; cout << endl;
     cout << setw(66) << "Password : "; cin >> password;
-    ammar.setProfile(age,name,username,password);
+    ammar.setProfile(age, name, username, password);
     cout << "testing" << endl;
     ammar.accountdetails();
 }
 
-    
+
 //a:
-int option;
-    cout << "\tMAIN MENU\n1. Manage Cart\n2. Exit\nOption: ";
-    cin >> option;//
-
-   // switch (option)
-    {
-    case 1:
-        cartOptions();
-        goto a;
-
-    case 2:
-        break;
-
-    default:
-        system("cls");
-        cout << "Invalid option";
-        goto a;
-        
-    }
-
-    return 0;//
-}
-
+//int option;
+//cout << "\tMAIN MENU\n1. Manage Cart\n2. Exit\nOption: ";
+//cin >> option;
+//
+// switch (option)
+//{
+//    case 1:
+//        cartOptions();
+//        goto a;
+//
+//    case 2:
+//        break;
+//
+//    default:
+//        system("cls");
+//        cout << "Invalid option";
+//        goto a;
+//
+//}
+//
+//return 0;
+//}
