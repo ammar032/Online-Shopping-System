@@ -45,6 +45,38 @@ public:
 
 class Item
 {
+private:
+    string itemName;
+    double itemPrice;
+    string itemDescription;
+    bool available;
+
+public:
+    Item(string name, double price, string description, bool avail)
+        : itemName(name), itemPrice(price), itemDescription(description), available(avail) {}
+
+    void displayItem() 
+    {
+        cout << "Item: " << itemName << endl;
+        co]ut << "Price: $" << itemPrice << endl;
+        cout << "Description: " << itemDescription << endl;
+        cout << "Availability: " << (available ? "In stock" : "Out of stock") << endl;
+    }
+
+    string getItemName() 
+    {
+        return itemName;
+    }
+
+    double getItemPrice() 
+    {
+        return itemPrice;
+    }
+
+    bool isAvailable() 
+    {
+        return available;
+    }
 };
 
 class Admin : public Profile
