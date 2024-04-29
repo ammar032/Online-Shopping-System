@@ -8,80 +8,93 @@ class Profile
 {
 protected:
     int age;
-    string name;
     string username;
     string password;
 
 public:
-    Profile()
+    string name;
+
+    void registration(string name, int age, string username, string password)
     {
-        age = 0;
-        name = "";
-        username = "";
-        password = "";
+        this->age = age;
+        this->name = name;
+        this->username = username;
+        this->password = password;
     }
 
-    void setProfile(int _age, string _name, string _username, string _password)
+    bool login(string loginUsername, string loginPassword)
     {
-        age = _age;
-        name = _name;
-        username = _username;
-        password = _password;
-    }
-    void accountdetails()
-    {
-        system("cls");
-        cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-        cout << setw(56) << "Personal Information" << setw(56) << endl;
-        cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-        cout << setw(42) << "Name : " << name << endl;
-        cout << setw(42) << "Age  : " << age << endl;
-        cout << setw(38) << "Username : " << username << endl;
-        cout << setw(38) << "Password : " << password << endl;
+        if (loginUsername == username && loginPassword == password)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
+    friend istream& operator >>(istream& obj, Profile& p1)
+    {
+        cout << "Enter name: "; obj >> p1.name;
+        cout << "Enter age: "; obj >> p1.age;
+        cout << "Enter username: "; obj >> p1.username;
+        cout << "Enter password: "; obj >> p1.password;
 
+        return obj;
+    }
+
+    friend ostream& operator <<(ostream& obj, Profile p1)
+    {
+        obj << "Name: " << p1.name << endl;
+        obj << "Age: " << p1.age << endl;
+        obj << "Username: " << p1.username << endl;
+        obj << "Password: " << p1.password << endl;
+
+        return obj;
+    }
 };
+
 
 class Item
 {
-private:
+public:
     string itemName;
     double itemPrice;
     string itemDescription;
-    bool available;
+    string shopOwner;
 
-public:
-    Item(string name, double price, string description, bool avail)
-        : itemName(name), itemPrice(price), itemDescription(description), available(avail) {}
-
-    void displayItem() 
+    void setItem(string itemName, double itemPrice, string itemDescription, string shopOwner)
     {
-        cout << "Item: " << itemName << endl;
-        co]ut << "Price: $" << itemPrice << endl;
-        cout << "Description: " << itemDescription << endl;
-        cout << "Availability: " << (available ? "In stock" : "Out of stock") << endl;
+        this->itemName = itemName;
+        this->itemPrice = itemPrice;
+        this->itemDescription = itemDescription;
+        this->shopOwner = shopOwner;
     }
 
-    string getItemName() 
+    friend ostream& operator <<(ostream& obj, Item item)
     {
-        return itemName;
+        obj << "Item name is: " << item.itemName << endl;
+        obj << "Item price is: " << item.itemPrice << endl;
+        obj << "Item Description is: " << item.itemDescription << endl;
+
+        return obj;
     }
 
-    double getItemPrice() 
+    friend istream& operator >>(istream& obj, Item& item)
     {
-        return itemPrice;
-    }
+        cout << "Enter name: "; obj >> item.itemName;
+        cout << "Enter price: "; obj >> item.itemPrice;
+        cout << "Enter description: "; obj >> item.itemDescription;
 
-    bool isAvailable() 
-    {
-        return available;
+        return obj;
     }
 };
 
 class Admin : public Profile
 {
 public:
+
     void viewProfile()
     {
 
@@ -98,9 +111,15 @@ public:
     }
 };
 
-class Shop_Owner : public Profile, public Item
+class shopOwner : public Profile
 {
+
 public:
+
+    void displayItem()
+    {
+
+    }
 
     void addItem()
     {
@@ -148,7 +167,194 @@ public:
     }
 };
 
-/*// ANUM'S CODE STARTS HERE 
+int main()
+{
+    Admin admin[5];
+    shopOwner owner[5];
+    Customer customer[5];
+    Item item[5];
+
+    admin[0].registration("ammar", 20, "ammar1", "password1");
+    owner[0].registration("hamza", 19, "hamza2", "password2");
+    customer[0].registration("sajid", 19, "sajid3", "password3");
+
+    item[0].setItem("Earphones", 500, "Best audio ever", owner[0].name);
+
+    int numberOfAdmins = 1;
+    int numberOfOwners = 1;
+    int numberOfCustomers = 1;
+    int numberOfItems = 1;
+
+a:
+    int option;
+    cout << "\tMAIN MENU\n1. Login\n2. Create Account\nOPTION: ";
+    cin >> option;
+    system("cls");
+
+    string loginUsername;
+    string loginPassword;
+    int user;
+    char status = '0';
+
+    switch (option)
+    {
+    case 1:
+
+        cin.ignore();
+
+        cout << "\tLOGIN\n";
+
+        cout << "Username: "; cin >> loginUsername;
+        cout << "Password: "; cin >> loginPassword;
+
+        for (int i = 0; i < numberOfAdmins; i++)
+        {
+            if (admin[i].login(loginUsername, loginPassword))
+            {
+                status = 'A';
+                user = i;
+                goto b;
+            }
+        }
+
+        for (int i = 0; i < numberOfOwners; i++)
+        {
+            if (owner[i].login(loginUsername, loginPassword))
+            {
+                status = 'O';
+                user = i;
+                goto b;
+            }
+        }
+
+        for (int i = 0; i < numberOfCustomers; i++)
+        {
+            if (customer[i].login(loginUsername, loginPassword))
+            {
+                status = 'C';
+                user = i;
+            }
+        }
+
+    b:
+        system("cls");
+        cout << "You have successfully logged in\n";
+
+        switch (status)
+        {
+        case 'A':
+            int adminOption;
+            cout << "\tADMIN\n1. View Profile\n2. Reset Profile\n3. Delete Profile\n4. Back To Main Menu\nOPTION: ";
+            cin >> adminOption;
+
+            switch (adminOption)
+            {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                system("cls");
+                goto a;
+
+            default:
+                system("cls");
+                cout << "Invalid option\n";
+            }
+
+            break;
+
+        case 'O':
+            int ownerOption;
+            cout << "\tSHOP OWNER\n1. Display Items\n2. Add Item\n3. Remove Item\n4. Back To Main Menu\nOPTION: ";
+            cin >> ownerOption;
+
+            switch (ownerOption)
+            {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                system("cls");
+                goto a;
+
+            default:
+                system("cls");
+                cout << "Invalid option\n";
+            }
+
+            break;
+
+        case 'C':
+            int customerOption;
+            cout << "\tCUSTOMER\n1. Buy Item\n2. Add To Cart\n3. View Cart\n4. Buy Cart\n5. Back To Main Menu\nOPTION: ";
+            cin >> customerOption;
+
+            switch (customerOption)
+            {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                system("cls");
+                goto a;
+
+            default:
+                system("cls");
+                cout << "Invalid option\n";
+            }
+
+            break;
+
+        default:
+            system("cls");
+            cout << "Invalid credentials please login again\n";
+            goto a;
+        }
+
+        break;
+
+    case 2:
+    c:
+
+        int option;
+        cout << "\tACCOUNT CREATION\n";
+        cout << "Do you want to make an account for: \n1. Admin\n2. Shop Owner\n3. Customer\nOPTION: ";
+        cin >> option;
+
+        switch (option)
+        {
+        case 1:
+            cin >> admin[numberOfAdmins++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        case 2:
+            cin >> owner[numberOfOwners++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        case 3:
+            cin >> customer[numberOfCustomers++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        default:
+            system("cls");
+            cout << "Invalid option please select one of the options below\n";
+            goto c;
+        }
+    default:
+        system("cls");
+        cout << "Invalid option\n";
+        goto a;
+    }
+}
+
+/*// ANUM'S CODE STARTS HERE
 
 const int MAX_ITEMS = 10;
 string itemName;
@@ -227,7 +433,7 @@ public:
     }
 };
 
-void cartOptions()      //should make this function a member function of customer class 
+void cartOptions()      //should make this function a member function of customer class
 {
     ShopManagement cart;
 
@@ -287,50 +493,3 @@ void cartOptions()      //should make this function a member function of custome
     }
 }
 // ANUM'S CODE ENDS HERE */
-
-int main() {
-    int age;
-    string name, username, password;
-    Admin ammar;
-
-    cout << endl << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-    cout << setw(56) << "" << "ACCOUNT REGISTRATION" << setw(56) << "" << endl;
-    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-    cout << endl << setw(42) << "" << "Please Enter Your Name : "; getline(cin, name); cout << endl;
-    cout << setw(42) << "" << "Please Enter Your Age  : "; cin >> age; cout << endl;
-    system("cls"); cout << endl;
-
-    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-    cout << setw(60) << "" << "ACCOUNT LOGIN" << setw(60) << "" << endl;
-    cout << setfill('=') << setw(132) << "" << setfill(' ') << endl;
-    cout << endl << setw(55) << "" << "Username : "; cin >> username; cout << endl;
-    cout << setw(66) << "Password : "; cin >> password;
-    ammar.setProfile(age, name, username, password);
-    cout << "testing" << endl;
-    ammar.accountdetails();
-}
-
-
-//a:
-//int option;
-//cout << "\tMAIN MENU\n1. Manage Cart\n2. Exit\nOption: ";
-//cin >> option;
-//
-// switch (option)
-//{
-//    case 1:
-//        cartOptions();
-//        goto a;
-//
-//    case 2:
-//        break;
-//
-//    default:
-//        system("cls");
-//        cout << "Invalid option";
-//        goto a;
-//
-//}
-//
-//return 0;
-//}
