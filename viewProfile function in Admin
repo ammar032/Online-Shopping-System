@@ -4,25 +4,15 @@
 #include<iomanip>
 using namespace std;
 
-int numberOfAdmins = 1;
-int numberOfOwners = 1;
-int numberOfCustomers = 1;
-int numberOfItems = 1;
-
-Admin admin[5];
-shopOwner owner[5];
-Customer customer[5];
-Item item[5];
-
 class Profile
 {
 protected:
-    int age{};
-    string username{};
-    string password{};
+    int age;
+    string username;
+    string password;
 
 public:
-    string name{};
+    string name;
 
     void registration(string name, int age, string username, string password)
     {
@@ -47,21 +37,20 @@ public:
     friend istream& operator >>(istream& obj, Profile& p1)
     {
         cin.ignore();
-        cout << "Enter name : "; getline(obj, p1.name);
-        cout << "Enter age  : "; obj >> p1.age;
-        cin.ignore();
-        cout << "Enter username : "; getline(obj, p1.username);
-        cout << "Enter password : "; obj >> p1.password;
+        cout << "Enter name: "; getline(obj, p1.name);
+        cout << "Enter age: "; obj >> p1.age;
+        cout << "Enter username: "; obj >> p1.username;
+        cout << "Enter password: "; obj >> p1.password;
 
         return obj;
     }
 
     friend ostream& operator <<(ostream& obj, Profile p1)
     {
-        obj << "Name : " << p1.name << endl;
-        obj << "Age  : " << p1.age << endl;
-        obj << "Username : " << p1.username << endl;
-        obj << "Password : " << p1.password << endl << endl;
+        obj << "Name: " << p1.name << endl;
+        obj << "Age: " << p1.age << endl;
+        obj << "Username: " << p1.username << endl;
+        obj << "Password: " << p1.password << endl<<endl;
 
         return obj;
     }
@@ -71,10 +60,10 @@ public:
 class Item
 {
 public:
-    string itemName{};
-    double itemPrice{};
-    string itemDescription{};
-    string owner{};
+    string itemName;
+    double itemPrice;
+    string itemDescription;
+    string owner;
 
     void setItem(string itemName, double itemPrice, string itemDescription, string owner)
     {
@@ -86,57 +75,27 @@ public:
 
     friend ostream& operator <<(ostream& obj, Item item)
     {
-        obj << "Name  : " << item.itemName << endl;
-        obj << "Price : " << item.itemPrice << endl;
-        obj << "Description : " << item.itemDescription << endl;
+        obj << "\nItem name is: " << item.itemName << endl;
+        obj << "Item price is: " << item.itemPrice << endl;
+        obj << "Item Description is: " << item.itemDescription << endl<<endl;
 
         return obj;
     }
 
     friend istream& operator >>(istream& obj, Item& item)
     {
-        cout << "Enter item name  : "; obj >> item.itemName;
-        cout << "Enter item price : "; obj >> item.itemPrice;
+        cout << "Enter name: "; obj >> item.itemName;
+        cout << "Enter price: "; obj >> item.itemPrice;
         cin.ignore();
-        cout << "Enter item description : "; getline(obj, item.itemDescription);
+        cout << "Enter description: "; getline(obj,item.itemDescription);
 
         return obj;
     }
 };
 
-class Admin : public Profile, shopOwner, Customer
+class Admin : public Profile
 {
 public:
-
-    void viewProfile()
-    {
-        cout << "SHOP OWNERS\n";
-        for (int i = 0; i < numberOfOwners; i++)
-        {
-            cout << owner[i];
-        }
-
-        cout << "CUSTOMERS\n";
-        for (int i = 0; i < numberOfCustomers; i++)
-        {
-            cout << customer[i];
-        }
-
-        int opt;
-        cout << "Press 1 to Exit !" << endl;
-        cin >> opt;
-
-        if (opt != 1)
-        {
-            while (opt != 1)
-            {
-                cout << "Invalid Option!" << endl;
-                cout << "Please Enter Valid Option : ";
-                cin >> opt;
-            }
-        }
-            
-    }
 
     void resetProfile()
     {
@@ -207,12 +166,21 @@ public:
 
 int main()
 {
-   
+    Admin admin[5];
+    shopOwner owner[5];
+    Customer customer[5];
+    Item item[5];
 
     admin[0].registration("ammar", 20, "ammar1", "password1");
     owner[0].registration("hamza", 19, "hamza2", "password2");
     customer[0].registration("sajid", 19, "sajid3", "password3");
+
     item[0].setItem("Earphones", 500, "Best audio ever", owner[0].name);
+
+    int numberOfAdmins = 1;
+    int numberOfOwners = 1;
+    int numberOfCustomers = 1;
+    int numberOfItems = 1;
 
 a:
     int option;
@@ -242,7 +210,6 @@ a:
             {
                 status = 'A';
                 user = i;
-                goto b;
             }
         }
 
@@ -252,7 +219,6 @@ a:
             {
                 status = 'O';
                 user = i;
-                goto b;
             }
         }
 
@@ -265,7 +231,7 @@ a:
             }
         }
 
-    b:
+
         system("cls");
         cout << "You have successfully logged in\n";
 
@@ -281,26 +247,36 @@ a:
             switch (adminOption)
             {
             case 1:
-                admin[user].viewProfile();
-                goto c;
 
+                cout << "\n\tADMIN\n";
+                for (int i = 0; i < numberOfAdmins; i++)
+                {
+                    cout << admin[i];
+                }
+
+                cout << "\tSHOP OWNERS\n";
+                for (int i = 0; i < numberOfOwners; i++)
+                {
+                    cout << owner[i];
+                }
+
+                cout << "\tCUSTOMERS\n";
+                for (int i = 0; i < numberOfCustomers; i++)
+                {
+                    cout << customer[i];
+                }
                 break;
 
             case 2:
-                break;
-
             case 3:
-                break;
-
             case 4:
-
                 system("cls");
                 goto a;
-                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
+                goto c;
             }
 
             break;
@@ -322,28 +298,28 @@ a:
                         cout << item[i];
                     }
                 }
-                break;
+                
+                cout << endl;
+                goto d;
 
             case 2:
                 cin >> item[numberOfItems];
                 item[numberOfItems].owner = owner[user].name;
                 numberOfItems++;
+                
                 system("cls");
-                cout << "Item successfully created!\n";
+                cout << "Item successfully added\n";
                 goto d;
-                break;
 
             case 3:
-                break;
-
             case 4:
                 system("cls");
                 goto a;
-                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
+                goto d;
             }
 
             break;
@@ -358,25 +334,17 @@ a:
             switch (customerOption)
             {
             case 1:
-                break;
-
             case 2:
-                break;
-
             case 3:
-                break;
-
             case 4:
-                break;
-
             case 5:
                 system("cls");
                 goto a;
-                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
+                goto e;
             }
 
             break;
@@ -390,11 +358,11 @@ a:
         break;
 
     case 2:
-    f:
+    b:
 
         int option;
         cout << "\tACCOUNT CREATION\n";
-        cout << "Do you want to make an account for: \n1. Admin\n2. Shop Owner\n3. Customer\n4. Exit\nOPTION: ";
+        cout << "Do you want to make an account for: \n1. Admin\n2. Shop Owner\n3. Customer\nOPTION: ";
         cin >> option;
 
         switch (option)
@@ -404,32 +372,25 @@ a:
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
-            break;
 
         case 2:
             cin >> owner[numberOfOwners++];
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
-            break;
 
         case 3:
             cin >> customer[numberOfCustomers++];
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
-            break;
-
-        case 4:
-            system("cls");
-            goto a;
-            break;
 
         default:
             system("cls");
             cout << "Invalid option please select one of the options below\n";
-            goto f;
+            goto b;
         }
+
         break;
 
     default:
@@ -438,5 +399,3 @@ a:
         goto a;
     }
 }
-
-
