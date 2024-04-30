@@ -4,6 +4,15 @@
 #include<iomanip>
 using namespace std;
 
+int numberOfAdmins = 1;
+int numberOfOwners = 1;
+int numberOfCustomers = 1;
+int numberOfItems = 1;
+
+Admin admin[5];
+shopOwner owner[5];
+Customer customer[5];
+Item item[5];
 
 class Profile
 {
@@ -52,7 +61,7 @@ public:
         obj << "Name : " << p1.name << endl;
         obj << "Age  : " << p1.age << endl;
         obj << "Username : " << p1.username << endl;
-        obj << "Password : " << p1.password << endl<<endl;
+        obj << "Password : " << p1.password << endl << endl;
 
         return obj;
     }
@@ -89,18 +98,44 @@ public:
         cout << "Enter item name  : "; obj >> item.itemName;
         cout << "Enter item price : "; obj >> item.itemPrice;
         cin.ignore();
-        cout << "Enter item description : ";getline(obj,item.itemDescription);
+        cout << "Enter item description : "; getline(obj, item.itemDescription);
 
         return obj;
     }
 };
 
-class Admin : public Profile
+class Admin : public Profile, shopOwner, Customer
 {
 public:
 
     void viewProfile()
     {
+        cout << "SHOP OWNERS\n";
+        for (int i = 0; i < numberOfOwners; i++)
+        {
+            cout << owner[i];
+        }
+
+        cout << "CUSTOMERS\n";
+        for (int i = 0; i < numberOfCustomers; i++)
+        {
+            cout << customer[i];
+        }
+
+        int opt;
+        cout << "Press 1 to Exit !" << endl;
+        cin >> opt;
+
+        if (opt != 1)
+        {
+            while (opt != 1)
+            {
+                cout << "Invalid Option!" << endl;
+                cout << "Please Enter Valid Option : ";
+                cin >> opt;
+            }
+        }
+            
     }
 
     void resetProfile()
@@ -172,15 +207,7 @@ public:
 
 int main()
 {
-    int numberOfAdmins = 1;
-    int numberOfOwners = 1;
-    int numberOfCustomers = 1;
-    int numberOfItems = 1;
-
-    Admin admin[5];
-    shopOwner owner[5];
-    Customer customer[5];
-    Item item[5];
+   
 
     admin[0].registration("ammar", 20, "ammar1", "password1");
     owner[0].registration("hamza", 19, "hamza2", "password2");
@@ -254,31 +281,28 @@ a:
             switch (adminOption)
             {
             case 1:
-
-                cout << "SHOP OWNERS\n";
-                for (int i = 0; i < numberOfOwners; i++)
-                {
-                    cout << owner[i];
-                }
-           
-                cout << "CUSTOMERS\n";
-                for (int i = 0; i < numberOfCustomers; i++)
-                {
-                    cout << customer[i];
-                }
+                admin[user].viewProfile();
+                goto c;
 
                 break;
+
             case 2:
+                break;
+
             case 3:
+                break;
+
             case 4:
 
                 system("cls");
                 goto a;
+                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
             }
+
             break;
 
         case 'O':
@@ -302,23 +326,26 @@ a:
 
             case 2:
                 cin >> item[numberOfItems];
-                cout << "21312";
                 item[numberOfItems].owner = owner[user].name;
                 numberOfItems++;
-                cout << "sadsad";
                 system("cls");
                 cout << "Item successfully created!\n";
                 goto d;
+                break;
 
             case 3:
+                break;
+
             case 4:
                 system("cls");
                 goto a;
+                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
             }
+
             break;
 
         case 'C':
@@ -331,17 +358,27 @@ a:
             switch (customerOption)
             {
             case 1:
+                break;
+
             case 2:
+                break;
+
             case 3:
+                break;
+
             case 4:
+                break;
+
             case 5:
                 system("cls");
                 goto a;
+                break;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
             }
+
             break;
 
         default:
@@ -349,9 +386,8 @@ a:
             cout << "Invalid credentials please login again\n";
             goto a;
         }
+
         break;
-     
-    break;
 
     case 2:
     f:
@@ -368,29 +404,33 @@ a:
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
+            break;
 
         case 2:
             cin >> owner[numberOfOwners++];
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
+            break;
 
         case 3:
             cin >> customer[numberOfCustomers++];
             system("cls");
             cout << "Account successfully created now please login\n";
             goto a;
+            break;
 
         case 4:
             system("cls");
             goto a;
+            break;
 
         default:
             system("cls");
             cout << "Invalid option please select one of the options below\n";
             goto f;
         }
-    break;
+        break;
 
     default:
         system("cls");
