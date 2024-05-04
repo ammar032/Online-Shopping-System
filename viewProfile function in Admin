@@ -1,18 +1,15 @@
 #include<iostream>
 #include<string>
 #include<stdlib.h>
-#include<iomanip>
 using namespace std;
 
 class Profile
 {
-protected:
+public:
+    string name;
     int age;
     string username;
     string password;
-
-public:
-    string name;
 
     void registration(string name, int age, string username, string password)
     {
@@ -50,7 +47,7 @@ public:
         obj << "Name: " << p1.name << endl;
         obj << "Age: " << p1.age << endl;
         obj << "Username: " << p1.username << endl;
-        obj << "Password: " << p1.password << endl<<endl;
+        obj << "Password: " << p1.password << endl << endl;
 
         return obj;
     }
@@ -60,14 +57,14 @@ public:
 class Item
 {
 public:
-    string itemName;
+    string name;
     double itemPrice;
     string itemDescription;
     string owner;
 
-    void setItem(string itemName, double itemPrice, string itemDescription, string owner)
+    void setItem(string name, double itemPrice, string itemDescription, string owner)
     {
-        this->itemName = itemName;
+        this->name = name;
         this->itemPrice = itemPrice;
         this->itemDescription = itemDescription;
         this->owner = owner;
@@ -75,19 +72,19 @@ public:
 
     friend ostream& operator <<(ostream& obj, Item item)
     {
-        obj << "\nItem name is: " << item.itemName << endl;
+        obj << "\nItem name is: " << item.name << endl;
         obj << "Item price is: " << item.itemPrice << endl;
-        obj << "Item Description is: " << item.itemDescription << endl<<endl;
+        obj << "Item Description is: " << item.itemDescription << endl << endl;
 
         return obj;
     }
 
     friend istream& operator >>(istream& obj, Item& item)
     {
-        cout << "Enter name: "; obj >> item.itemName;
+        cout << "Enter name: "; obj >> item.name;
         cout << "Enter price: "; obj >> item.itemPrice;
         cin.ignore();
-        cout << "Enter description: "; getline(obj,item.itemDescription);
+        cout << "Enter description: "; getline(obj, item.itemDescription);
 
         return obj;
     }
@@ -97,46 +94,24 @@ class Admin : public Profile
 {
 public:
 
-    void resetProfile()
-    {
-
-    }
-
-    void deleteProfile()
-    {
-
-    }
 };
 
 class shopOwner : public Profile
 {
-
 public:
+};
 
-    void displayItem()
-    {
-
-    }
-
-    void addItem()
-    {
-
-    }
-
-    void removeItem()
-    {
-
-    }
-
-    void checkSales()
-    {
-
-    }
+struct Cart
+{
+    string item;
+    int price;
 };
 
 class Customer : public Profile
 {
 public:
+    int total;
+    Cart cart[5];
 
     void buyItem()
     {
@@ -181,10 +156,11 @@ int main()
     int numberOfOwners = 1;
     int numberOfCustomers = 1;
     int numberOfItems = 1;
+    int numberOfCartItems = 0;
 
 a:
     int option;
-    cout << "\tMAIN MENU\n1. Login\n2. Create Account\nOPTION: ";
+    cout << "\tMAIN MENU\n1. Login\n2. Create Account\n3. Exit\nOPTION: ";
     cin >> option;
     system("cls");
 
@@ -199,10 +175,33 @@ a:
 
         cin.ignore();
 
-        cout << "\tLOGIN\n";
+        //temp code for easily logging in 
+        //uncomment this and comment the other one for the normal version
 
+        /*int login;
+        cout << "\tLOGIN\n1. Admin\n2. Shop Owner\n3. Customer\nOPTION: ";
+        cin >> login;*/
+        
+       /* if (login == 1)
+        {
+            loginUsername = admin[0].username;
+            loginPassword = admin[0].password;
+        }
+        else if (login == 2)
+        {
+            loginUsername = owner[0].username;
+            loginPassword = owner[0].password;
+        }
+        else if (login == 3)
+        {
+            loginUsername = customer[0].username;
+            loginPassword = customer[0].password;
+        }*/
+
+        //comment this for easily logging in
         cout << "Username: "; cin >> loginUsername;
         cout << "Password: "; cin >> loginPassword;
+
 
         for (int i = 0; i < numberOfAdmins; i++)
         {
@@ -241,7 +240,7 @@ a:
         c:
 
             int adminOption;
-            cout << "\tADMIN\n1. View Profile\n2. Reset Profile\n3. Delete Profile\n4. Back To Main Menu\nOPTION: ";
+            cout << "\tADMIN\n1. View Profiles\n2. Delete Profile\n3. Back To Main Menu\nOPTION: ";
             cin >> adminOption;
 
             switch (adminOption)
@@ -265,11 +264,15 @@ a:
                 {
                     cout << customer[i];
                 }
-                break;
+
+                int goBack;
+                cout << "Press 1 to go back: "; cin >> goBack;
+
+                system("cls");
+                goto a;
 
             case 2:
             case 3:
-            case 4:
                 system("cls");
                 goto a;
 
@@ -298,7 +301,7 @@ a:
                         cout << item[i];
                     }
                 }
-                
+
                 cout << endl;
                 goto d;
 
@@ -306,12 +309,28 @@ a:
                 cin >> item[numberOfItems];
                 item[numberOfItems].owner = owner[user].name;
                 numberOfItems++;
-                
+
                 system("cls");
                 cout << "Item successfully added\n";
                 goto d;
 
             case 3:
+                for (int i = 0; i < numberOfItems; i++)
+                {
+                    if (item[i].owner == owner[user].name)
+                    {
+                        cout << i << ". " << item[i].name<<endl;
+                    }
+                }
+                int itemNumber;
+                cout << "Which item do you want to delete: "; cin >> itemNumber;
+
+                item[itemNumber].setItem("REMOVED", 0, "REMOVED", owner[user].name);
+
+                system("cls");
+                cout << "Item successfully removed\n";
+                goto d;
+
             case 4:
                 system("cls");
                 goto a;
@@ -328,16 +347,115 @@ a:
         e:
 
             int customerOption;
-            cout << "\tCUSTOMER\n1. Buy Item\n2. Add To Cart\n3. View Cart\n4. Buy Cart\n5. Back To Main Menu\nOPTION: ";
+            cout << "\tCUSTOMER\n1. View Items\n2. View Cart\n3. Back To Main Menu\nOPTION: ";
             cin >> customerOption;
 
             switch (customerOption)
             {
             case 1:
+                for (int i = 0; i < numberOfItems; i++)
+                {
+                    cout << item[i];
+                }
+
+                int itemSelection;
+                for (int i = 0; i < numberOfItems; i++)
+                {
+                    cout << i << ". " << item[i].name << endl;
+                }
+                cout << "\nSelect item: "; cin >> itemSelection;
+                
+                system("cls");
+                cout << item[itemSelection];
+
+                int option;
+                cout << "Do you want to: \n1. Buy Item\n2. Add To Cart\n3. Add To Wishlist\n4. Go Back\nOPTION: ";
+                cin >> option;
+
+                switch (option)
+                {
+                case 1:
+                    system("cls");
+                    cout << item[itemSelection].name << " " << item[itemSelection].itemPrice<<" Rs\n";
+                    customer[user].total = item[itemSelection].itemPrice;
+                    cout << "Total = " << customer[user].total<<endl;
+
+                    int payment;
+                    cout << "Would you like to pay with cash or credit?\n1. Cash\n2. Credit\nOPTION: ";
+                    cin >> payment;
+                    if (payment == 1)
+                    {
+                        system("cls");
+                        int confirmation;
+                        cout << "Please confirm your payment of " << customer[user].total<<" Rs\n1. Confirm\n2. Go Back\nOPTION: ";
+                        cin >> confirmation;
+
+                        if (confirmation == 1)
+                        {
+                            system("cls");
+                            cout << "Cash Payment Successful!\n";
+                            int option;
+                            cout << "Would you like to buy anything else or exit\n1. Go To Customer Menu\n2. Exit\nOPTION: ";
+                            cin >> option;
+
+                            if (option == 1)
+                            {
+                                goto e;
+                            }
+                            else
+                            {
+                                goto z;
+                            }
+                        }
+                    }
+                    else if(payment == 2)
+                    {
+                        system("cls");
+                        cout << "Card Payment Successful!\n"; // gonna add card details and ask the user
+                        int option;
+                        cout << "Would you like to buy anything else or exit\n1. Go To Customer Menu\n2. Exit\nOPTION: ";
+                        cin >> option;
+
+                        if (option == 1)
+                        {
+                            goto e;
+                        }
+                        else
+                        {
+                            goto z;
+                        }
+                    }
+
+                case 2:
+                    customer[user].cart[0].item = item[itemSelection].name;
+                    customer[user].cart[0].price = item[itemSelection].itemPrice;
+
+                    system("cls");
+                    cout << "Item successfully added to cart.\n";
+                    numberOfCartItems++;
+                    goto e;
+
+                case 3:
+                case 4:
+                default:
+                    cout << "Invalid choice";
+                    break;
+                }
+
             case 2:
+
+                for (int i = 0; i < numberOfCartItems; i++)
+                {
+                    cout << customer[user].cart[i].item<<endl;
+                    cout << customer[user].cart[i].price << endl;
+                }
+
+                int goBack;
+                cout << "\nPress 1 to go back: "; cin >> goBack; //will add conditions
+                system("cls");
+                goto e;
+
             case 3:
-            case 4:
-            case 5:
                 system("cls");
                 goto a;
 
@@ -391,6 +509,12 @@ a:
             goto b;
         }
 
+        break;
+
+    case 3:
+    z:
+
+        cout << "\nProgram Ended Successfully";
         break;
 
     default:
