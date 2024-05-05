@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<stdlib.h>
+#include<fstream>
 using namespace std;
 
 class Profile
@@ -52,7 +53,6 @@ public:
         return obj;
     }
 };
-
 
 class Item
 {
@@ -112,6 +112,7 @@ class Customer : public Profile
 public:
     int total;
     Cart cart[5];
+    string wishlist[5];
 
     void buyItem()
     {
@@ -145,6 +146,7 @@ int main()
     shopOwner owner[5];
     Customer customer[5];
     Item item[5];
+    fstream wishlist;
 
     admin[0].registration("ammar", 20, "ammar1", "password1");
     owner[0].registration("hamza", 19, "hamza2", "password2");
@@ -157,6 +159,7 @@ int main()
     int numberOfCustomers = 1;
     int numberOfItems = 1;
     int numberOfCartItems = 0;
+    int numberOfWishlist = 0;
 
 a:
     int option;
@@ -269,9 +272,57 @@ a:
                 cout << "Press 1 to go back: "; cin >> goBack;
 
                 system("cls");
-                goto a;
+                goto c;
 
             case 2:
+
+                system("cls");
+                int option;
+                cout << "Do you want to delete an owner or a customer:\n1. Owner\n2. Customer\nOPTION: ";
+                cin >> option;
+
+                if (option == 1)
+                {
+                    cout << "\tSHOP OWNERS\n";
+                    for (int i = 0; i < numberOfOwners; i++)
+                    {
+                        cout <<i <<". "<<owner[i].name << endl;
+                    }
+                    int deletion;
+                    cout << "Which account do you want to delete: ";
+                    cin >> deletion;
+
+                    owner[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
+
+                    system("cls");
+                    cout << "Account successfully deleted!\n";
+                    goto c;
+                }
+
+                else if (option == 2)
+                {
+                    cout << "\tCUSTOMERS\n";
+                    for (int i = 0; i < numberOfCustomers; i++)
+                    {
+                        cout <<i<<". "<< customer[i].name << endl;
+                    }
+                    int deletion;
+                    cout << "Which account do you want to delete: ";
+                    cin >> deletion;
+
+                    customer[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
+
+                    system("cls");
+                    cout << "Account successfully deleted!\n";
+                    goto c;
+                }
+                else
+                {
+                    system("cls");
+                    cout << "Invalid option!\n";
+                    goto c;
+                }
+
             case 3:
                 system("cls");
                 goto a;
@@ -347,7 +398,7 @@ a:
         e:
 
             int customerOption;
-            cout << "\tCUSTOMER\n1. View Items\n2. View Cart\n3. Back To Main Menu\nOPTION: ";
+            cout << "\tCUSTOMER\n1. View Items\n2. View Cart\n3. View Wishlist\n4. Back To Main Menu\nOPTION: ";
             cin >> customerOption;
 
             switch (customerOption)
@@ -436,7 +487,24 @@ a:
                     goto e;
 
                 case 3:
+
+                    wishlist.open("Wishlist.txt",ios::out);
+
+                    if (wishlist.is_open())
+                    {
+                        wishlist << item[itemSelection].name<<endl;
+                        wishlist.close();
+
+                        system("cls");
+                        cout << "Item Successfully added to wishlist!\n";
+
+                        goto e;
+                    }
+
                 case 4:
+                    system("cls");
+                    goto e;
+                    
                 default:
                     cout << "Invalid choice";
                     break;
@@ -444,18 +512,58 @@ a:
 
             case 2:
 
-                for (int i = 0; i < numberOfCartItems; i++)
+                if (numberOfCartItems == 0)
                 {
-                    cout << customer[user].cart[i].item<<endl;
-                    cout << customer[user].cart[i].price << endl;
+                    system("cls");
+                    cout << "Cart is empty!\n";
+                    goto e;
+                }
+                else
+                {
+                    for (int i = 0; i < numberOfCartItems; i++)
+                    {
+                        cout << endl;
+                        cout << "Item: " << customer[user].cart[i].item << endl;
+                        cout << "Price: " << customer[user].cart[i].price << endl;
+                    }
+
+                    int goBack;
+                    cout << "\nPress 1 to go back: "; cin >> goBack; //will add conditions
+                    system("cls");
+                    goto e;
                 }
 
-                int goBack;
-                cout << "\nPress 1 to go back: "; cin >> goBack; //will add conditions
-                system("cls");
-                goto e;
-
             case 3:
+
+                    system("cls");
+                    cout << "\tWISHLIST ITEMS: \n";
+
+                    wishlist.open("Wishlist.txt",ios::in);
+
+                    if (wishlist.is_open())
+                    {
+                        string wishlistItems;
+                        while(wishlist>>wishlistItems)
+                        {
+                            cout << "\t" << wishlistItems << endl;
+                        }
+                        wishlist.close();
+
+                        cout << endl;
+                        int goBack;
+                        cout << "Press 1 to go back: "; cin >> goBack;
+
+                        system("cls");
+                        goto e;
+                    }
+                    else
+                    {
+                        system("cls");
+                        cout << "Wishlist is empty!\n";
+                        goto e;
+                    }
+
+            case 4:
                 system("cls");
                 goto a;
 
