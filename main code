@@ -297,6 +297,73 @@ a:
             
         case 'O':
         d:
+    int ownerOption;
+    cout << "======================================" << endl;
+    cout << "\t\tSHOP OWNER MENU" << endl;
+    cout << "======================================" << endl;
+    cout << "1. Display Items" << endl;
+    cout << "2. Add Item" << endl;
+    cout << "3. Remove Item" << endl;
+    cout << "4. Back To Main Menu" << endl;
+    cout << "======================================" << endl;
+    cout << "OPTION: ";
+    cin >> ownerOption;
+
+    switch (ownerOption)
+    {
+    case 1:
+        cout << endl;
+        for (int i = 0; i < numberOfItems; i++)
+        {
+            if (item[i].owner == owner[user].getName())
+            {
+                cout << item[i];
+            }
+        }
+
+        int option;
+        cout << "Press 1 to go back: "; cin >> option;
+        system("cls");
+        goto d;
+
+    case 2:
+        cin >> item[numberOfItems];
+        item[numberOfItems].owner = owner[user].getName();
+        numberOfItems++;
+
+        system("cls");
+        cout << "Item successfully added\n";
+        goto d;
+
+    case 3:
+        for (int i = 0; i < numberOfItems; i++)
+        {
+            if (item[i].owner == owner[user].getName())
+            {
+                cout << i << ". " << item[i].name << endl;
+            }
+        }
+        int itemNumber;
+        cout << "Which item do you want to delete: ";
+        cin >> itemNumber;
+
+        item[itemNumber].setItem("REMOVED", 0, "REMOVED", owner[user].getName());
+
+        system("cls");
+        cout << "Item successfully removed\n";
+        goto d;
+
+    case 4:
+        system("cls");
+        goto a;
+
+    default:
+        system("cls");
+        cout << "Invalid option\n";
+        goto d;
+    }
+
+    break;
             
         case 'C':
         e:
