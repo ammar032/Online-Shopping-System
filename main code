@@ -1,1 +1,360 @@
+#include<iostream>
+#include<string>
+#include<stdlib.h>
+#include<fstream>
+using namespace std;
 
+//CONCEPTS USED:
+// HIERARCHICAL INHERITENCE, protected and public access specifiers, Dynamic Classes and Struct
+// SETTER / GETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
+// GETLINE, SWITCH/CASE, IF/ELSE, FILE-HANDLING (READING/WRITING)
+// 
+//TYPES OF FUNCTIONS USED: VOID,FRIEND, BOOL, PARAMATERIZED  
+
+class Profile   //SETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
+{
+protected:
+    string name;
+    int age;
+    string username;
+    string password;
+
+public:
+
+    string getName()
+    {
+        return name;
+    }
+    string getUsername()
+    {
+        return username;
+    }
+    string getPassword()
+    {
+        return password;
+    }
+
+    void registration(string name, int age, string username, string password)
+    {
+        this->age = age;
+        this->name = name;
+        this->username = username;
+        this->password = password;
+    }
+
+    bool login(string loginUsername, string loginPassword)
+    {
+        if (loginUsername == username && loginPassword == password)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
+
+class Item
+{
+public:
+    string name;
+    double itemPrice;
+    string itemDescription;
+    string owner;
+
+    void setItem(string name, double itemPrice, string itemDescription, string owner)
+    {
+        this->name = name;
+        this->itemPrice = itemPrice;
+        this->itemDescription = itemDescription;
+        this->owner = owner;
+    }
+
+    friend ostream& operator<<(ostream& obj, Item item)
+    {
+        obj << "======================================" << endl;
+        obj << "\t\tITEM DETAILS" << endl;
+        obj << "======================================" << endl;
+        obj << "Item name: " << item.name << endl;
+        obj << "Item price: " << item.itemPrice << " Rs" << endl;
+        obj << "Item Description: " << item.itemDescription << endl;
+        obj << "======================================" << endl << endl;
+        return obj;
+    }
+
+    friend istream& operator>>(istream& obj, Item& item)
+    {
+        cout << "======================================" << endl;
+        cout << "\t\tADD ITEM" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter name: "; obj >> item.name;
+        cout << "Enter price: "; obj >> item.itemPrice;
+        cin.ignore();
+        cout << "Enter description: "; getline(obj, item.itemDescription);
+        cout << "======================================" << endl << endl;
+        return obj;
+    }
+};
+
+class Admin : public Profile
+{
+public:
+    friend istream& operator >>(istream& obj, Admin& a1)
+    {
+        cin.ignore();
+        cout << "======================================" << endl;
+        cout << "\t\tREGISTER" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter name: "; getline(obj, a1.name);
+        cout << "Enter age: "; obj >> a1.age;
+        cout << "Enter username: "; obj >> a1.username;
+        cout << "Enter password: "; obj >> a1.password;
+        cout << "======================================" << endl << endl;
+
+        return obj;
+    }
+
+    friend ostream& operator <<(ostream& obj, Admin a1)
+    {
+        obj << "======================================" << endl;
+        obj << "\t\tPROFILE" << endl;
+        obj << "======================================" << endl;
+        obj << "Name: " << a1.name << endl;
+        obj << "Age: " << a1.age << endl;
+        obj << "Username: " << a1.username << endl;
+        obj << "Password: " << a1.password << endl;
+        obj << "======================================" << endl << endl;
+
+        return obj;
+    }
+};
+
+class ShopOwner : public Profile
+{
+public:
+    friend istream& operator >>(istream& obj, ShopOwner& s1)
+    {
+        cin.ignore();
+        cout << "======================================" << endl;
+        cout << "\t\tREGISTER" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter name: "; getline(obj, s1.name);
+        cout << "Enter age: "; obj >> s1.age;
+        cout << "Enter username: "; obj >> s1.username;
+        cout << "Enter password: "; obj >> s1.password;
+        cout << "======================================" << endl << endl;
+
+        return obj;
+    }
+
+    friend ostream& operator <<(ostream& obj, ShopOwner s1)
+    {
+        obj << "======================================" << endl;
+        obj << "\t\tPROFILE" << endl;
+        obj << "======================================" << endl;
+        obj << "Name: " << s1.name << endl;
+        obj << "Age: " << s1.age << endl;
+        obj << "Username: " << s1.username << endl;
+        obj << "Password: " << s1.password << endl;
+        obj << "======================================" << endl << endl;
+
+        return obj;
+    }
+};
+
+struct Cart
+{
+    string item;
+    int price;
+};
+
+class Customer : public Profile
+{
+public:
+    int total;
+    Cart cart[5];
+    string wishlist[5];
+
+    friend istream& operator >>(istream& obj, Customer& c1)
+    {
+        cin.ignore();
+        cout << "======================================" << endl;
+        cout << "\t\tREGISTER" << endl;
+        cout << "======================================" << endl;
+        cout << "Enter name: "; getline(obj, c1.name);
+        cout << "Enter age: "; obj >> c1.age;
+        cout << "Enter username: "; obj >> c1.username;
+        cout << "Enter password: "; obj >> c1.password;
+        cout << "======================================" << endl << endl;
+
+        return obj;
+    }
+
+    friend ostream& operator <<(ostream& obj, Customer c1)
+    {
+        obj << "======================================" << endl;
+        obj << "\t\tPROFILE" << endl;
+        obj << "======================================" << endl;
+        obj << "Name: " << c1.name << endl;
+        obj << "Age: " << c1.age << endl;
+        obj << "Username: " << c1.username << endl;
+        obj << "Password: " << c1.password << endl;
+        obj << "======================================" << endl << endl;
+
+        return obj;
+    }
+};
+
+int main()
+{
+    Admin* admin = new Admin[5];
+    ShopOwner* owner = new ShopOwner[5];
+    Customer* customer = new Customer[5];
+    Item* item = new Item[5];
+    fstream wishlist;
+
+    admin[0].registration("ammar", 20, "ammar1", "password1");
+    owner[0].registration("hamza", 19, "hamza2", "password2");
+    customer[0].registration("sajid", 19, "sajid3", "password3");
+
+    item[0].setItem("Earphones", 500, "Best audio ever", owner[0].getName());
+    item[1].setItem("Pishtol", 600, "For shooting", owner[0].getName());
+
+    int numberOfAdmins = 1;
+    int numberOfOwners = 1;
+    int numberOfCustomers = 1;
+    int numberOfItems = 2;
+    int numberOfCartItems = 0;
+    int numberOfWishlist = 0;
+
+a:
+    int option;
+    cout << "======================================" << endl;
+    cout << "\t\tMAIN MENU" << endl;
+    cout << "======================================" << endl;
+    cout << "1. Login" << endl;
+    cout << "2. Create Account" << endl;
+    cout << "3. Exit" << endl;
+    cout << "======================================" << endl;
+    cout << "OPTION: ";
+    cin >> option;
+    system("cls");
+
+    string loginUsername;
+    string loginPassword;
+    int user;
+    char status = '0';
+
+    switch (option)
+    {
+    case 1:
+
+        cin.ignore();
+
+        cout << "====================\n";
+        cout << "Enter your username: ";
+        cin >> loginUsername;
+
+        cout << "Enter your password: ";
+        cin >> loginPassword;
+        cout << "====================\n";
+
+        for (int i = 0; i < numberOfAdmins; i++)
+        {
+            if (admin[i].login(loginUsername, loginPassword))
+            {
+                status = 'A';
+                user = i;
+            }
+        }
+
+        for (int i = 0; i < numberOfOwners; i++)
+        {
+            if (owner[i].login(loginUsername, loginPassword))
+            {
+                status = 'O';
+                user = i;
+            }
+        }
+
+        for (int i = 0; i < numberOfCustomers; i++)
+        {
+            if (customer[i].login(loginUsername, loginPassword))
+            {
+                status = 'C';
+                user = i;
+            }
+        }
+
+        system("cls");
+        cout << "You have successfully logged in\n";
+
+        switch (status)
+        {
+        case 'A':
+        c:
+            
+        case 'O':
+        d:
+            
+        case 'C':
+        e:
+
+           
+    case 2:
+    b:
+        int option;
+        cout << "======================================" << endl;
+        cout << "\t\tACCOUNT CREATION" << endl;
+        cout << "======================================" << endl;
+        cout << "Do you want to make an account for: " << endl;
+        cout << "1. Admin" << endl;
+        cout << "2. Shop Owner" << endl;
+        cout << "3. Customer" << endl;
+        cout << "======================================" << endl;
+        cout << "OPTION: ";
+        cin >> option;
+        switch (option)
+        {
+        case 1:
+            cin >> admin[numberOfAdmins++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        case 2:
+            cin >> owner[numberOfOwners++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        case 3:
+            cin >> customer[numberOfCustomers++];
+            system("cls");
+            cout << "Account successfully created now please login\n";
+            goto a;
+
+        default:
+            system("cls");
+            cout << "Invalid option please select one of the options below\n";
+            goto b;
+        }
+
+        break;
+
+    case 3:
+    z:
+        delete[] admin;
+        delete[] owner;
+        delete[] customer;
+        delete[] item;
+        cout << "\nProgram Ended Successfully\n";
+        break;
+
+    default:
+        system("cls");
+        cout << "Invalid option\n";
+        goto a;
+    }
+}
