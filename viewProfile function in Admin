@@ -4,13 +4,35 @@
 #include<fstream>
 using namespace std;
 
-class Profile
+//CONCEPTS USED:
+// HIERARCHICAL INHERITENCE
+// SETTER / GETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
+// GETLINE, SWITCH/CASE, IF/ELSE, FILE-HANDLING (READING/WRITING)
+// 
+//TYPES OF FUNCTIONS USED: VOID,FRIEND, BOOL, PARAMATERIZED  
+
+class Profile   //SETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
 {
-public:
+protected:
     string name;
     int age;
     string username;
     string password;
+
+public:
+
+    string getName()
+    {
+        return name;
+    }
+    string getUsername()
+    {
+        return username;
+    }
+    string getPassword()
+    {
+        return password;
+    }
 
     void registration(string name, int age, string username, string password)
     {
@@ -35,20 +57,28 @@ public:
     friend istream& operator >>(istream& obj, Profile& p1)
     {
         cin.ignore();
+        cout << "======================================" << endl;
+        cout << "\t\tREGISTER" << endl;
+        cout << "======================================" << endl;
         cout << "Enter name: "; getline(obj, p1.name);
         cout << "Enter age: "; obj >> p1.age;
         cout << "Enter username: "; obj >> p1.username;
         cout << "Enter password: "; obj >> p1.password;
+        cout << "======================================" << endl << endl;
 
         return obj;
     }
 
     friend ostream& operator <<(ostream& obj, Profile p1)
     {
+        obj << "======================================" << endl;
+        obj << "\t\tPROFILE" << endl;
+        obj << "======================================" << endl;
         obj << "Name: " << p1.name << endl;
         obj << "Age: " << p1.age << endl;
         obj << "Username: " << p1.username << endl;
-        obj << "Password: " << p1.password << endl << endl;
+        obj << "Password: " << p1.password << endl;
+        obj << "======================================" << endl << endl;
 
         return obj;
     }
@@ -70,22 +100,28 @@ public:
         this->owner = owner;
     }
 
-    friend ostream& operator <<(ostream& obj, Item item)
+    friend ostream& operator<<(ostream& obj, Item item)
     {
-        obj << "\nItem name is: " << item.name << endl;
-        obj << "Item price is: " << item.itemPrice << endl;
-        obj << "Item Description is: " << item.itemDescription << endl << endl;
-
+        obj << "======================================" << endl;
+        obj << "\t\tITEM DETAILS" << endl;
+        obj << "======================================" << endl;
+        obj << "Item name: " << item.name << endl;
+        obj << "Item price: " << item.itemPrice << " Rs" << endl;
+        obj << "Item Description: " << item.itemDescription << endl;
+        obj << "======================================" << endl << endl;
         return obj;
     }
 
-    friend istream& operator >>(istream& obj, Item& item)
+    friend istream& operator>>(istream& obj, Item& item)
     {
+        cout << "======================================" << endl;
+        cout << "\t\tADD ITEM" << endl;
+        cout << "======================================" << endl;
         cout << "Enter name: "; obj >> item.name;
         cout << "Enter price: "; obj >> item.itemPrice;
         cin.ignore();
         cout << "Enter description: "; getline(obj, item.itemDescription);
-
+        cout << "======================================" << endl << endl;
         return obj;
     }
 };
@@ -96,7 +132,7 @@ public:
 
 };
 
-class shopOwner : public Profile
+class ShopOwner : public Profile
 {
 public:
 };
@@ -113,37 +149,12 @@ public:
     int total;
     Cart cart[5];
     string wishlist[5];
-
-    void buyItem()
-    {
-
-    }
-
-    void addToCart()
-    {
-
-    }
-
-    void deleteItem()
-    {
-
-    }
-
-    void viewCart()
-    {
-
-    }
-
-    void buyCart()
-    {
-
-    }
 };
 
 int main()
 {
     Admin admin[5];
-    shopOwner owner[5];
+    ShopOwner owner[5];
     Customer customer[5];
     Item item[5];
     fstream wishlist;
@@ -152,7 +163,7 @@ int main()
     owner[0].registration("hamza", 19, "hamza2", "password2");
     customer[0].registration("sajid", 19, "sajid3", "password3");
 
-    item[0].setItem("Earphones", 500, "Best audio ever", owner[0].name);
+    item[0].setItem("Earphones", 500, "Best audio ever", owner[0].getName());
 
     int numberOfAdmins = 1;
     int numberOfOwners = 1;
@@ -163,7 +174,14 @@ int main()
 
 a:
     int option;
-    cout << "\tMAIN MENU\n1. Login\n2. Create Account\n3. Exit\nOPTION: ";
+    cout << "======================================" << endl;
+    cout << "\t\tMAIN MENU" << endl;
+    cout << "======================================" << endl;
+    cout << "1. Login" << endl;
+    cout << "2. Create Account" << endl;
+    cout << "3. Exit" << endl;
+    cout << "======================================" << endl;
+    cout << "OPTION: ";
     cin >> option;
     system("cls");
 
@@ -175,36 +193,42 @@ a:
     switch (option)
     {
     case 1:
-
         cin.ignore();
 
-        //temp code for easily logging in 
-        //uncomment this and comment the other one for the normal version
-
         /*int login;
-        cout << "\tLOGIN\n1. Admin\n2. Shop Owner\n3. Customer\nOPTION: ";
-        cin >> login;*/
-        
-       /* if (login == 1)
+        cout << "======================================" << endl;
+        cout << "\t\tLOGIN MENU" << endl;
+        cout << "======================================" << endl;
+        cout << "1. Admin" << endl;
+        cout << "2. Shop Owner" << endl;
+        cout << "3. Customer" << endl;
+        cout << "======================================" << endl;
+        cout << "OPTION: ";
+        cin >> login;
+
+        if (login == 1)
         {
-            loginUsername = admin[0].username;
-            loginPassword = admin[0].password;
+            loginUsername = admin[0].getUsername();
+            loginPassword = admin[0].getPassword();
         }
         else if (login == 2)
         {
-            loginUsername = owner[0].username;
-            loginPassword = owner[0].password;
+            loginUsername = owner[0].getUsername();
+            loginPassword = owner[0].getPassword();
         }
         else if (login == 3)
         {
-            loginUsername = customer[0].username;
-            loginPassword = customer[0].password;
+            loginUsername = customer[0].getUsername();
+            loginPassword = customer[0].getPassword();
         }*/
 
-        //comment this for easily logging in
-        cout << "Username: "; cin >> loginUsername;
-        cout << "Password: "; cin >> loginPassword;
+        cout << "====================\n";
+        cout << "Enter your username: ";
+        cin >> loginUsername;
 
+        cout << "Enter your password: ";
+        cin >> loginPassword;
+        cout << "====================\n";
 
         for (int i = 0; i < numberOfAdmins; i++)
         {
@@ -233,7 +257,6 @@ a:
             }
         }
 
-
         system("cls");
         cout << "You have successfully logged in\n";
 
@@ -241,15 +264,19 @@ a:
         {
         case 'A':
         c:
-
             int adminOption;
-            cout << "\tADMIN\n1. View Profiles\n2. Delete Profile\n3. Back To Main Menu\nOPTION: ";
+            cout << "======================================" << endl;
+            cout << "\t\tADMIN MENU" << endl;
+            cout << "======================================" << endl;
+            cout << "1. View Profiles" << endl;
+            cout << "2. Delete Profile" << endl;
+            cout << "3. Back To Main Menu" << endl;
+            cout << "======================================" << endl;
+            cout << "OPTION: ";
             cin >> adminOption;
-
             switch (adminOption)
             {
             case 1:
-
                 cout << "\n\tADMIN\n";
                 for (int i = 0; i < numberOfAdmins; i++)
                 {
@@ -269,49 +296,42 @@ a:
                 }
 
                 int goBack;
-                cout << "Press 1 to go back: "; cin >> goBack;
-
+                cout << "Press 1 to go back: ";
+                cin >> goBack;
                 system("cls");
                 goto c;
 
             case 2:
-
                 system("cls");
                 int option;
                 cout << "Do you want to delete an owner or a customer:\n1. Owner\n2. Customer\nOPTION: ";
                 cin >> option;
-
                 if (option == 1)
                 {
                     cout << "\tSHOP OWNERS\n";
                     for (int i = 0; i < numberOfOwners; i++)
                     {
-                        cout <<i <<". "<<owner[i].name << endl;
+                        cout << i << ". " << owner[i].getName() << endl;
                     }
                     int deletion;
                     cout << "Which account do you want to delete: ";
                     cin >> deletion;
-
                     owner[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
-
                     system("cls");
                     cout << "Account successfully deleted!\n";
                     goto c;
                 }
-
                 else if (option == 2)
                 {
                     cout << "\tCUSTOMERS\n";
                     for (int i = 0; i < numberOfCustomers; i++)
                     {
-                        cout <<i<<". "<< customer[i].name << endl;
+                        cout << i << ". " << customer[i].getName() << endl;
                     }
                     int deletion;
                     cout << "Which account do you want to delete: ";
                     cin >> deletion;
-
                     customer[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
-
                     system("cls");
                     cout << "Account successfully deleted!\n";
                     goto c;
@@ -337,28 +357,37 @@ a:
 
         case 'O':
         d:
-
             int ownerOption;
-            cout << "\tSHOP OWNER\n1. Display Items\n2. Add Item\n3. Remove Item\n4. Back To Main Menu\nOPTION: ";
+            cout << "======================================" << endl;
+            cout << "\t\tSHOP OWNER MENU" << endl;
+            cout << "======================================" << endl;
+            cout << "1. Display Items" << endl;
+            cout << "2. Add Item" << endl;
+            cout << "3. Remove Item" << endl;
+            cout << "4. Back To Main Menu" << endl;
+            cout << "======================================" << endl;
+            cout << "OPTION: ";
             cin >> ownerOption;
-
             switch (ownerOption)
             {
             case 1:
+                cout << endl;
                 for (int i = 0; i < numberOfItems; i++)
                 {
-                    if (item[i].owner == owner[user].name)
+                    if (item[i].owner == owner[user].getName())
                     {
                         cout << item[i];
                     }
                 }
 
-                cout << endl;
+                int option;
+                cout << "Press 1 to go back: "; cin >> option;
+                system("cls");
                 goto d;
 
             case 2:
                 cin >> item[numberOfItems];
-                item[numberOfItems].owner = owner[user].name;
+                item[numberOfItems].owner = owner[user].getName();
                 numberOfItems++;
 
                 system("cls");
@@ -368,15 +397,16 @@ a:
             case 3:
                 for (int i = 0; i < numberOfItems; i++)
                 {
-                    if (item[i].owner == owner[user].name)
+                    if (item[i].owner == owner[user].getName())
                     {
-                        cout << i << ". " << item[i].name<<endl;
+                        cout << i << ". " << item[i].name << endl;
                     }
                 }
                 int itemNumber;
-                cout << "Which item do you want to delete: "; cin >> itemNumber;
+                cout << "Which item do you want to delete: ";
+                cin >> itemNumber;
 
-                item[itemNumber].setItem("REMOVED", 0, "REMOVED", owner[user].name);
+                item[itemNumber].setItem("REMOVED", 0, "REMOVED", owner[user].getName());
 
                 system("cls");
                 cout << "Item successfully removed\n";
@@ -396,14 +426,22 @@ a:
 
         case 'C':
         e:
-
             int customerOption;
-            cout << "\tCUSTOMER\n1. View Items\n2. View Cart\n3. View Wishlist\n4. Back To Main Menu\nOPTION: ";
+            cout << "======================================" << endl;
+            cout << "\t\tCUSTOMER MENU" << endl;
+            cout << "======================================" << endl;
+            cout << "1. View Items" << endl;
+            cout << "2. View Cart" << endl;
+            cout << "3. View Wishlist" << endl;
+            cout << "4. Back To Main Menu" << endl;
+            cout << "======================================" << endl;
+            cout << "OPTION: ";
             cin >> customerOption;
 
             switch (customerOption)
             {
             case 1:
+                system("cls");
                 for (int i = 0; i < numberOfItems; i++)
                 {
                     cout << item[i];
@@ -414,41 +452,63 @@ a:
                 {
                     cout << i << ". " << item[i].name << endl;
                 }
-                cout << "\nSelect item: "; cin >> itemSelection;
-                
+                cout << "\nSelect item: ";
+                cin >> itemSelection;
+
                 system("cls");
                 cout << item[itemSelection];
 
                 int option;
-                cout << "Do you want to: \n1. Buy Item\n2. Add To Cart\n3. Add To Wishlist\n4. Go Back\nOPTION: ";
+                cout << "======================================" << endl;
+                cout << "\t\tITEM OPTIONS" << endl;
+                cout << "======================================" << endl;
+                cout << "What would you like to do?\n";
+                cout << "1. Buy Item\n";
+                cout << "2. Add to Cart\n";
+                cout << "3. Add to Wishlist\n";
+                cout << "4. Go Back\n";
+                cout << "OPTION: ";
                 cin >> option;
 
                 switch (option)
                 {
                 case 1:
                     system("cls");
-                    cout << item[itemSelection].name << " " << item[itemSelection].itemPrice<<" Rs\n";
-                    customer[user].total = item[itemSelection].itemPrice;
-                    cout << "Total = " << customer[user].total<<endl;
+                    cout << "======================================" << endl;
+                    cout << "Item: " << item[itemSelection].name << endl;
+                    cout << "Price: " << item[itemSelection].itemPrice << " Rs" << endl;
+                    cout << "======================================" << endl << endl;
 
                     int payment;
-                    cout << "Would you like to pay with cash or credit?\n1. Cash\n2. Credit\nOPTION: ";
+                    cout << "How would you like to pay?\n";
+                    cout << "1. Cash\n";
+                    cout << "2. Credit\n";
+                    cout << "OPTION: ";
                     cin >> payment;
+
                     if (payment == 1)
                     {
                         system("cls");
                         int confirmation;
-                        cout << "Please confirm your payment of " << customer[user].total<<" Rs\n1. Confirm\n2. Go Back\nOPTION: ";
+                        cout << "======================================" << endl;
+                        cout << "Confirm Payment: " << item[itemSelection].itemPrice << " Rs" << endl;
+                        cout << "======================================" << endl;
+                        cout << "1. Confirm\n";
+                        cout << "2. Go Back\n";
+                        cout << "OPTION: ";
                         cin >> confirmation;
-
                         if (confirmation == 1)
                         {
                             system("cls");
                             cout << "Cash Payment Successful!\n";
-                            int option;
-                            cout << "Would you like to buy anything else or exit\n1. Go To Customer Menu\n2. Exit\nOPTION: ";
-                            cin >> option;
 
+                            int option;
+                            cout << "======================================" << endl;
+                            cout << "Would you like to:\n";
+                            cout << "1. Return to Customer Menu\n";
+                            cout << "2. Exit\n";
+                            cout << "OPTION: ";
+                            cin >> option;
                             if (option == 1)
                             {
                                 goto e;
@@ -459,14 +519,19 @@ a:
                             }
                         }
                     }
-                    else if(payment == 2)
+                    else if (payment == 2)
                     {
                         system("cls");
                         cout << "Card Payment Successful!\n"; // gonna add card details and ask the user
                         int option;
-                        cout << "Would you like to buy anything else or exit\n1. Go To Customer Menu\n2. Exit\nOPTION: ";
+                        cout << "======================================" << endl;
+                        cout << "Would you like to:\n";
+                        cout << "1. Return to Customer Menu\n";
+                        cout << "2. Exit\n";
+                        cout << "OPTION: ";
                         cin >> option;
 
+                        system("cls");
                         if (option == 1)
                         {
                             goto e;
@@ -482,86 +547,97 @@ a:
                     customer[user].cart[0].price = item[itemSelection].itemPrice;
 
                     system("cls");
+                    cout << "======================================" << endl;
                     cout << "Item successfully added to cart.\n";
+                    cout << "======================================" << endl;
                     numberOfCartItems++;
                     goto e;
 
                 case 3:
-
-                    wishlist.open("Wishlist.txt",ios::out);
-
+                    wishlist.open("Wishlist.txt", ios::out);
                     if (wishlist.is_open())
                     {
-                        wishlist << item[itemSelection].name<<endl;
+                        wishlist << item[itemSelection].name << endl;
                         wishlist.close();
-
                         system("cls");
+                        cout << "======================================" << endl;
                         cout << "Item Successfully added to wishlist!\n";
-
+                        cout << "======================================" << endl;
                         goto e;
                     }
 
                 case 4:
                     system("cls");
                     goto e;
-                    
+
                 default:
                     cout << "Invalid choice";
                     break;
                 }
 
             case 2:
-
                 if (numberOfCartItems == 0)
                 {
                     system("cls");
-                    cout << "Cart is empty!\n";
+                    cout << "======================================" << endl;
+                    cout << "        Your Cart is Empty!" << endl;
+                    cout << "======================================" << endl;
                     goto e;
                 }
                 else
                 {
+                    system("cls");
+                    cout << "======================================" << endl;
+                    cout << "               CART" << endl;
+                    cout << "======================================" << endl;
                     for (int i = 0; i < numberOfCartItems; i++)
                     {
-                        cout << endl;
                         cout << "Item: " << customer[user].cart[i].item << endl;
-                        cout << "Price: " << customer[user].cart[i].price << endl;
+                        cout << "Price: " << customer[user].cart[i].price << " Rs" << endl;
+                        cout << "--------------------------------------" << endl;
                     }
 
                     int goBack;
-                    cout << "\nPress 1 to go back: "; cin >> goBack; //will add conditions
+                    cout << "Press 1 to go back: ";
+                    cin >> goBack; //will add conditions
                     system("cls");
                     goto e;
                 }
 
             case 3:
 
+                system("cls");
+                cout << "======================================" << endl;
+                cout << "\t    WISHLIST ITEMS" << endl;
+                cout << "======================================" << endl;
+
+                wishlist.open("Wishlist.txt", ios::in);
+
+                if (wishlist.is_open())
+                {
+                    string wishlistItems;
+                    while (wishlist >> wishlistItems)
+                    {
+                        cout << "\t- " << wishlistItems << endl;
+                    }
+                    wishlist.close();
+
+                    cout << endl;
+                    int goBack;
+                    cout << "Press 1 to go back: ";
+                    cin >> goBack;
+
                     system("cls");
-                    cout << "\tWISHLIST ITEMS: \n";
-
-                    wishlist.open("Wishlist.txt",ios::in);
-
-                    if (wishlist.is_open())
-                    {
-                        string wishlistItems;
-                        while(wishlist>>wishlistItems)
-                        {
-                            cout << "\t" << wishlistItems << endl;
-                        }
-                        wishlist.close();
-
-                        cout << endl;
-                        int goBack;
-                        cout << "Press 1 to go back: "; cin >> goBack;
-
-                        system("cls");
-                        goto e;
-                    }
-                    else
-                    {
-                        system("cls");
-                        cout << "Wishlist is empty!\n";
-                        goto e;
-                    }
+                    goto e;
+                }
+                else
+                {
+                    system("cls");
+                    cout << "======================================" << endl;
+                    cout << "\t    WISHLIST IS EMPTY" << endl;
+                    cout << "======================================" << endl;
+                    goto e;
+                }
 
             case 4:
                 system("cls");
@@ -585,12 +661,17 @@ a:
 
     case 2:
     b:
-
         int option;
-        cout << "\tACCOUNT CREATION\n";
-        cout << "Do you want to make an account for: \n1. Admin\n2. Shop Owner\n3. Customer\nOPTION: ";
+        cout << "======================================" << endl;
+        cout << "\t\tACCOUNT CREATION" << endl;
+        cout << "======================================" << endl;
+        cout << "Do you want to make an account for: " << endl;
+        cout << "1. Admin" << endl;
+        cout << "2. Shop Owner" << endl;
+        cout << "3. Customer" << endl;
+        cout << "======================================" << endl;
+        cout << "OPTION: ";
         cin >> option;
-
         switch (option)
         {
         case 1:
@@ -621,8 +702,7 @@ a:
 
     case 3:
     z:
-
-        cout << "\nProgram Ended Successfully";
+        cout << "\nProgram Ended Successfully\n";
         break;
 
     default:
