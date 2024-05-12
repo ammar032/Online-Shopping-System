@@ -294,6 +294,107 @@ a:
         {
         case 'A':
         c:
+          int adminOption;
+          //displaying admin menu option
+          cout << "======================================" << endl;
+          cout << "\t\tADMIN MENU" << endl;
+          cout << "======================================" << endl;
+          cout << "1. View Profiles" << endl;
+          cout << "2. Delete Profile" << endl;
+          cout << "3. Back To Main Menu" << endl;
+          cout << "======================================" << endl;
+          cout << "OPTION: ";
+          //taking input from the user
+          cin >> adminOption;
+          
+          //switch statement to handle different admin options
+          switch (adminOption)
+         {
+          case 1:
+          cout << "\n\tADMIN\n";
+          for (int i = 0; i < numberOfAdmins; i++)
+          {
+              cout << admin[i];
+          }
+
+          cout << "\tSHOP OWNERS\n";
+          for (int i = 0; i < numberOfOwners; i++)
+          {
+               cout << owner[i];
+          }
+
+          cout << "\tCUSTOMERS\n";
+          for (int i = 0; i < numberOfCustomers; i++)
+          {
+               cout << customer[i];
+          }
+
+          int goBack;
+          cout << "Press 1 to go back: ";
+          cin >> goBack;
+          system("cls");
+          //Returning to the admin menu
+          goto c;
+
+          case 2:
+          system("cls");
+          int option;
+          cout << "Do you want to delete an owner or a customer:\n1. Owner\n2. Customer\nOPTION: ";
+          cin >> option;
+          if (option == 1)
+          {
+          cout << "\tSHOP OWNERS\n";
+          for (int i = 0; i < numberOfOwners; i++)
+          {
+            cout << i << ". " << owner[i].getName() << endl;
+          }
+          int deletion;
+          cout << "Which account do you want to delete: ";
+          cin >> deletion;
+          // Deleting owner account
+          owner[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
+          system("cls");
+          cout << "Account successfully deleted!\n";
+          // Returning to admin menu
+          goto c;
+          }
+           else if (option == 2)
+          {
+          cout << "\tCUSTOMERS\n";
+          for (int i = 0; i < numberOfCustomers; i++)
+          {
+            cout << i << ". " << customer[i].getName() << endl;
+          }
+          int deletion;
+          cout << "Which account do you want to delete: ";
+          cin >> deletion;
+          // Deleting customer account
+          customer[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
+          system("cls");
+          cout << "Account successfully deleted!\n";
+          // Returning to admin menu
+          goto c;
+          }
+           else
+          {
+          system("cls");
+          cout << "Invalid option!\n";
+          goto c;
+          }
+
+         case 3:
+          system("cls");
+          //Returning to the main menu
+          goto a;
+
+         default:
+         system("cls");
+         cout << "Invalid option\n";
+         //Returning to the admin menu
+         goto c;
+         }
+
+         break; 
             
         case 'O':
         d:
