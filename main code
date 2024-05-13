@@ -2,14 +2,17 @@
 #include<string>
 #include<stdlib.h>
 #include<fstream>
+#include<vector>
 using namespace std;
 
 //CONCEPTS USED:
-// HIERARCHICAL INHERITENCE, protected and public access specifiers, Dynamic Classes and Struct
-// SETTER / GETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
+// HIERARCHICAL INHERITENCE, protected and public access specifiers, Dynamic Classes and Struct, Vectors
+// 
+// SETTER/GETTER, ISTREAM/OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE/REFERENCE
+// 
 // GETLINE, SWITCH/CASE, IF/ELSE, FILE-HANDLING (READING/WRITING)
 // 
-//TYPES OF FUNCTIONS USED: VOID,FRIEND, BOOL, PARAMATERIZED  
+//TYPES OF FUNCTIONS USED: VOID , FRIEND, BOOL, PARAMATERIZED  
 
 class Profile   //SETTER, ISTREAM / OSTREAM OPERATOR OVERLOADING, THIS POINTER, CALL BY VALUE / REFERENCE
 {
@@ -83,7 +86,7 @@ public:
         return obj;
     }
 
-    friend istream& operator>>(istream& obj, Item& item)
+    friend istream& operator>>(istream& obj, Item &item)
     {
         cout << "======================================" << endl;
         cout << "\t\tADD ITEM" << endl;
@@ -208,10 +211,10 @@ public:
 
 int main()
 {
-    Admin* admin = new Admin[5];
-    ShopOwner* owner = new ShopOwner[5];
-    Customer* customer = new Customer[5];
-    Item* item = new Item[5];
+    vector<Admin> admin(5);
+    vector<ShopOwner> owner(5);
+    vector<Customer> customer(5);
+    vector<Item> item(10);
     fstream wishlist;
 
     admin[0].registration("ammar", 20, "ammar1", "password1");
@@ -250,33 +253,6 @@ a:
     {
     case 1:
         cin.ignore();
-
-       /* int login;
-        cout << "======================================" << endl;
-        cout << "\t\tLOGIN MENU" << endl;
-        cout << "======================================" << endl;
-        cout << "1. Admin" << endl;
-        cout << "2. Shop Owner" << endl;
-        cout << "3. Customer" << endl;
-        cout << "======================================" << endl;
-        cout << "OPTION: ";
-        cin >> login;
-
-        if (login == 1)
-        {
-            loginUsername = admin[0].getUsername();
-            loginPassword = admin[0].getPassword();
-        }
-        else if (login == 2)
-        {
-            loginUsername = owner[0].getUsername();
-            loginPassword = owner[0].getPassword();
-        }
-        else if (login == 3)
-        {
-            loginUsername = customer[0].getUsername();
-            loginPassword = customer[0].getPassword();
-        }*/
 
         cout << "====================\n";
         cout << "Enter your username: ";
@@ -321,6 +297,7 @@ a:
         case 'A':
         c:
             int adminOption;
+            //displaying admin menu option
             cout << "======================================" << endl;
             cout << "\t\tADMIN MENU" << endl;
             cout << "======================================" << endl;
@@ -329,23 +306,27 @@ a:
             cout << "3. Back To Main Menu" << endl;
             cout << "======================================" << endl;
             cout << "OPTION: ";
+            //taking input from the user
             cin >> adminOption;
+
+            //switch statement to handle different admin options
             switch (adminOption)
             {
             case 1:
-                cout << "\n\tADMIN\n";
+                system("cls");
+                cout << "\n\t\tADMIN\n";
                 for (int i = 0; i < numberOfAdmins; i++)
                 {
                     cout << admin[i];
                 }
 
-                cout << "\tSHOP OWNERS\n";
+                cout << "\t\tSHOP OWNERS\n";
                 for (int i = 0; i < numberOfOwners; i++)
                 {
                     cout << owner[i];
                 }
 
-                cout << "\tCUSTOMERS\n";
+                cout << "\t\tCUSTOMERS\n";
                 for (int i = 0; i < numberOfCustomers; i++)
                 {
                     cout << customer[i];
@@ -355,6 +336,7 @@ a:
                 cout << "Press 1 to go back: ";
                 cin >> goBack;
                 system("cls");
+                //Returning to the admin menu
                 goto c;
 
             case 2:
@@ -372,9 +354,11 @@ a:
                     int deletion;
                     cout << "Which account do you want to delete: ";
                     cin >> deletion;
+                    // Deleting owner account
                     owner[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
                     system("cls");
                     cout << "Account successfully deleted!\n";
+                    // Returning to admin menu
                     goto c;
                 }
                 else if (option == 2)
@@ -387,9 +371,11 @@ a:
                     int deletion;
                     cout << "Which account do you want to delete: ";
                     cin >> deletion;
+                    // Deleting customer account
                     customer[deletion].registration("REMOVED", 0, "REMOVED", "REMOVED");
                     system("cls");
                     cout << "Account successfully deleted!\n";
+                    // Returning to admin menu
                     goto c;
                 }
                 else
@@ -401,11 +387,13 @@ a:
 
             case 3:
                 system("cls");
+                //Returning to the main menu
                 goto a;
 
             default:
                 system("cls");
                 cout << "Invalid option\n";
+                //Returning to the admin menu
                 goto c;
             }
 
@@ -567,7 +555,7 @@ a:
                         cout << "\tRECEIPT\n";
                         cout << "======================\n";
                         cout << "Name [Quantity]\tPrice\n";
-                        cout << item[itemSelection].name << " [1]\t" << item[itemSelection].itemPrice << "Rs" << endl; 
+                        cout << item[itemSelection].name << " [1]\t" << item[itemSelection].itemPrice << "Rs" << endl;
                         cout << "----------------------\n";
                         cout << "Total :\t\t$" << item[itemSelection].itemPrice << endl;
                         cout << "======================\n";
@@ -630,6 +618,7 @@ a:
                     break;
                 }
                 break;
+
             case 2:
                 if (numberOfCartItems == 0)
                 {
@@ -670,12 +659,12 @@ a:
                         {
                             customer[user].total += customer[user].cart[i].price;
                         }
-                        cout << "\nYour total bill is: " << customer[user].total << " Rs"<<endl<<endl;
-                        
+                        cout << "\nYour total bill is: " << customer[user].total << " Rs" << endl << endl;
+
                         char option;
                         cout << "1. Proceed To Checkout\n2. Go Back\nOption: ";
                         cin >> option;
-                        
+
                         if (option == '1')
                         {
                             goto p;
@@ -701,10 +690,10 @@ a:
                         cout << "Name [Quantity]\tPrice\n";
                         for (int i = 0; i < numberOfCartItems; i++)
                         {
-                            cout << customer[user].cart[i].item<<" [1]\t" << customer[user].cart[i].price << "Rs" << endl;
+                            cout << customer[user].cart[i].item << " [1]\t" << customer[user].cart[i].price << "Rs" << endl;
                         }
                         cout << "----------------------\n";
-                        cout << "Total :\t\t\t$" << customer[user].total << endl;
+                        cout << "Total :\t\t$" << customer[user].total << endl;
                         cout << "======================\n";
                         cout << "\tThank You for your purchase!\n\n";
                         break;
@@ -724,7 +713,7 @@ a:
                 cout << "\t    WISHLIST ITEMS" << endl;
                 cout << "======================================" << endl;
 
-                if(numberOfWishlist>0)
+                if (numberOfWishlist > 0)
                 {
                     for (int i = 0; i < numberOfWishlist; i++)
                     {
@@ -811,11 +800,11 @@ a:
 
     case 3:
     z:
-        delete[] admin;
-        delete[] owner;
-        delete[] customer;
-        delete[] item;
+        //Vector array deletes itself automatically upon exiting
+
+        cout << "===========================";
         cout << "\nProgram Ended Successfully\n";
+        cout << "===========================" << endl;
         break;
 
     default:
